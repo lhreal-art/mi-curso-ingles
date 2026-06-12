@@ -1,29 +1,21 @@
-html
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Curso de InglÈs - Reproductor con Memoria</title>
+    <title>Mi Curso - Reproductor con memoria (proxy gratuito)</title>
     <style>
         * {
             box-sizing: border-box;
         }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #1e293b;
+            font-family: system-ui, 'Segoe UI', monospace;
+            background: #0a0f1e;
+            color: #eef;
             margin: 0;
             padding: 20px;
-        }
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            background: #0f172a;
-            border-radius: 24px;
-            padding: 20px;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.3);
             display: flex;
-            gap: 25px;
+            gap: 30px;
             flex-wrap: wrap;
         }
         .player-section {
@@ -32,369 +24,265 @@ html
         }
         .playlist-section {
             flex: 1;
-            min-width: 260px;
-            background: #1e293b;
+            min-width: 250px;
+            background: #111827;
             border-radius: 20px;
-            padding: 15px;
+            padding: 20px;
             height: fit-content;
         }
         video {
             width: 100%;
-            border-radius: 16px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             background: black;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
         .video-info {
             margin-top: 15px;
-            background: #334155;
-            padding: 10px 18px;
+            background: #1e293b;
+            padding: 12px 20px;
             border-radius: 40px;
             font-weight: bold;
             display: inline-block;
-            color: #f1f5f9;
         }
         .playlist {
             list-style: none;
             padding: 0;
             margin: 20px 0 0;
-            max-height: 500px;
-            overflow-y: auto;
         }
         .playlist li {
-            background: #334155;
+            background: #1e293b;
             margin-bottom: 8px;
-            padding: 10px 12px;
-            border-radius: 12px;
+            padding: 12px 15px;
+            border-radius: 14px;
             cursor: pointer;
             transition: 0.2s;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #e2e8f0;
         }
         .playlist li:hover {
-            background: #475569;
-            transform: translateX(3px);
+            background: #2d3a52;
+            transform: translateX(5px);
         }
         .playlist li.active {
-            background: #3b82f6;
-            border-left: 4px solid #facc15;
+            background: #3b5e7e;
+            border-left: 5px solid #ffb347;
         }
         .progress-badge {
-            font-size: 11px;
-            background: #0f172a;
-            padding: 4px 8px;
+            font-size: 12px;
+            background: #00000066;
+            padding: 3px 8px;
             border-radius: 20px;
             font-family: monospace;
-            color: #94a3b8;
         }
         button {
-            background: #facc15;
+            background: #ffb347;
             border: none;
-            color: #0f172a;
+            color: #1e293b;
             padding: 8px 16px;
             border-radius: 30px;
             font-weight: bold;
             cursor: pointer;
             margin-top: 12px;
-            transition: 0.2s;
-        }
-        button:hover {
-            background: #eab308;
-            transform: scale(1.02);
         }
         .status {
             font-size: 14px;
-            color: #94a3b8;
+            color: #9ca3af;
             margin-top: 10px;
-            background: #1e293b;
-            padding: 8px 12px;
-            border-radius: 20px;
         }
-        h2, h3 {
-            color: #f1f5f9;
+        h3 {
             margin-top: 0;
         }
-        .footer-note {
-            font-size: 12px;
-            color: #64748b;
-            text-align: center;
-            margin-top: 20px;
-        }
-        hr {
-            border-color: #334155;
+        .info-text {
+            background: #00000077;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="player-section">
-        <video id="miVideo" controls preload="metadata"></video>
-        <div class="video-info" id="videoNombre">?? Ning˙n video cargado</div>
-        <div class="status" id="estadoProgreso">? Listo. Selecciona un video.</div>
-        <button id="reiniciarVideo">? Reiniciar este video</button>
+<div class="player-section">
+    <video id="miVideo" controls preload="metadata" width="100%"></video>
+    <div class="video-info" id="videoNombre">Ning√∫n video cargado</div>
+    <div class="status" id="estadoProgreso"></div>
+    <button id="reiniciarVideo">‚Ü∫ Reiniciar este video</button>
+    <div class="info-text">
+        ‚ö° El progreso se guarda autom√°ticamente cada 5 segundos y cuando pausas.<br>
+        ‚úÖ Al recargar la p√°gina, seguir√°s en el mismo video y segundo.<br>
+        üîó Usando proxy p√∫blico (gratuito) para evitar bloqueos.
     </div>
-    <div class="playlist-section">
-        <h3>?? Lecciones (39 al 58)</h3>
-        <ul class="playlist" id="listaVideos"></ul>
-        <hr>
-        <div class="footer-note">
-            ?? El progreso se guarda autom·ticamente cada 5 segundos y al pausar.<br>
-            ?? Al recargar la p·gina, seguir·s en el mismo video y segundo.
-        </div>
-    </div>
+</div>
+<div class="playlist-section">
+    <h3>üìÅ Mis videos (lecciones 39 a 58)</h3>
+    <ul class="playlist" id="listaVideos"></ul>
+    <p style="font-size:12px; margin-top:20px;">
+        üìå C√≥mo usar:<br>
+        1. Haz clic en cualquier lecci√≥n de la lista.<br>
+        2. El video se cargar√° y comenzar√° desde donde lo dejaste.<br>
+        3. Puedes marcar progreso manualmente con el bot√≥n de reinicio.
+    </p>
 </div>
 
 <script>
-    // ------------------------------------------------------------
-    // 1. LISTA DE VIDEOS CON SUS IDs DE GOOGLE DRIVE
-    // (ya incluidos seg˙n los enlaces que proporcionaste)
-    // ------------------------------------------------------------
+    // ---------- LISTA DE VIDEOS (IDs desde los enlaces que me diste) ----------
     const videos = [
-        { nombre: "LecciÛn 39", driveId: "1exv8NGSbUR_WH-tFGYTRvy-AvnK7jox1" },
-        { nombre: "LecciÛn 40", driveId: "1oDHYbLdMCodHltJWHGRmPDZa91yixOcH" },
-        { nombre: "LecciÛn 41", driveId: "1Y3C2E4fQ7T5kU95iZyqwEFHOzhsScUWY" },
-        { nombre: "LecciÛn 42", driveId: "1NaTQgow58cW7r4S7aczYOHX6iD3JsubK" },
-        { nombre: "LecciÛn 43", driveId: "1czyYMJkrq5Vsx2vkIbHqF5jEIXlxBNHg" },
-        { nombre: "LecciÛn 44", driveId: "1loKDVCcOmNOFDgbKXpbXYOqDT1fR4M1b" },
-        { nombre: "LecciÛn 45", driveId: "16cHwrg5bAy2304BM5yrz03udyvgINyBr" },
-        { nombre: "LecciÛn 46", driveId: "1SBnsELi0oq5XpTRuaRYR3sm_Y0E3BmDP" },
-        { nombre: "LecciÛn 47", driveId: "1D7V_29PxCS4XchEDdzdzA-sELAOIVjT-" },
-        { nombre: "LecciÛn 48", driveId: "1qC5af2nc86BVjYtWZGgU62PjxPsk_3Sb" },
-        { nombre: "LecciÛn 49", driveId: "1ntskbFCBOEpguiiqkE-oR96Ie96us9Bv" },
-        { nombre: "LecciÛn 50", driveId: "12__LPjbKyeA9c7QX00ufbRwNFXcGWieI" },
-        { nombre: "LecciÛn 51", driveId: "1NN80jeD2O2ZsD9-QMFg5Z4cmYobh-eZM" },
-        { nombre: "LecciÛn 52", driveId: "13z8PaAIltpI2LuR2OFKhf1gGtbf6xzbx" },
-        { nombre: "LecciÛn 53", driveId: "1ztF_NyUlAUUDzG_QXhUhQmKQ2VOB0pll" },
-        { nombre: "LecciÛn 54", driveId: "1awAt29j44CdnlbI2H0OhvErLvmskfcu1" },
-        { nombre: "LecciÛn 55", driveId: "1CK-HuTYxd1faaM98JgdUMrNGrsSYM28f" },
-        { nombre: "LecciÛn 56", driveId: "1tdnpZmHMWkP1hxtRgWjy_Mr7o-5GVaEI" },
-        { nombre: "LecciÛn 57", driveId: "1P16K6UmlVuFqqyplp3pF_cebyOPtHvbM" },
-        { nombre: "LecciÛn 58", driveId: "1CZBD-q9Nw6HE_ZDwIoEa8BFpdOUFj0KC" }
+        { nombre: "39¬∞ SESI√ìN - What d...", driveId: "1exv8NGSbUR_WH-tFGYTRvy-AvnK7jox1" },
+        { nombre: "40¬∞ SESI√ìN - Did yo...", driveId: "1oDHYbLdMCodHltJWHGRmPDZa91yixOcH" },
+        { nombre: "41¬∞ SESI√ìN - I haven'...", driveId: "1Y3C2E4fQ7T5kU95iZyqwEFHOzhsScUWY" },
+        { nombre: "42¬∞ SESI√ìN - It's well...", driveId: "1NaTQgow58cW7r4S7aczYOHX6iD3JsubK" },
+        { nombre: "43¬∞ SESI√ìN - How lo...", driveId: "1czyYMJkrq5Vsx2vkIbHqF5jEIXlxBNHg" },
+        { nombre: "44¬∞ SESI√ìN - If he ha...", driveId: "1loKDVCcOmNOFDgbKXpbXYOqDT1fR4M1b" },
+        { nombre: "45¬∞ SESI√ìN - You...", driveId: "16cHwrg5bAy2304BM5yrz03udyvgINyBr" },
+        { nombre: "46¬∞ SESI√ìN - He's...", driveId: "1SBnsELi0oq5XpTRuaRYR3sm_Y0E3BmDP" },
+        { nombre: "47¬∞ SESI√ìN - I could...", driveId: "1D7V_29PxCS4XchEDdzdzA-sELAOIVjT-" },
+        { nombre: "48¬∞ SESI√ìN - I would...", driveId: "1qC5af2nc86BVjYtWZGgU62PjxPsk_3Sb" },
+        { nombre: "49¬∞ SESI√ìN - He left...", driveId: "1ntskbFCBOEpguiiqkE-oR96Ie96us9Bv" },
+        { nombre: "50¬∞ SESI√ìN - I go...", driveId: "12__LPjbKyeA9c7QX00ufbRwNFXcGWieI" },
+        { nombre: "51¬∞ SESI√ìN - She is...", driveId: "1NN80jeD2O2ZsD9-QMFg5Z4cmYobh-eZM" },
+        { nombre: "52¬∞ SESI√ìN - I would...", driveId: "13z8PaAIltpI2LuR2OFKhf1gGtbf6xzbx" },
+        { nombre: "53¬∞ SESI√ìN - He won...", driveId: "1ztF_NyUlAUUDzG_QXhUhQmKQ2VOB0pll" },
+        { nombre: "54¬∞ SESI√ìN - I...", driveId: "1awAt29j44CdnlbI2H0OhvErLvmskfcu1" },
+        { nombre: "55¬∞ SESI√ìN - I actual...", driveId: "1CK-HuTYxd1faaM98JgdUMrNGrsSYM28f" },
+        { nombre: "56¬∞ SESI√ìN - Why isn...", driveId: "1tdnpZmHMWkP1hxtRgWjy_Mr7o-5GVaEI" },
+        { nombre: "57¬∞ SESI√ìN - This is...", driveId: "1P16K6UmlVuFqqyplp3pF_cebyOPtHvbM" },
+        { nombre: "58¬∞ SESI√ìN - If I wer...", driveId: "1CZBD-q9Nw6HE_ZDwIoEa8BFpdOUFj0KC" }
     ];
 
-    // ------------------------------------------------------------
-    // 2. FUNCI”N PARA OBTENER LA URL DIRECTA DEL VIDEO DESDE DRIVE
-    // (formato que probamos que funciona: uc?export=view)
-    // ------------------------------------------------------------
+    // ---------- FUNCI√ìN CLAVE: Obtener URL del video usando proxy gratuito ----------
     function obtenerUrlVideo(driveId) {
-        return `https://drive.google.com/uc?export=view&id=${driveId}`;
+        // Proxy p√∫blico (no requiere API Key, gratuito)
+        return `https://drive-api.herokuapp.com/raw/${driveId}`;
+        // Si este proxy deja de funcionar, prueba con el siguiente:
+        // return `https://drive.google.com/uc?export=download&id=${driveId}`;
     }
 
-    // ------------------------------------------------------------
-    // 3. VARIABLES GLOBALES Y ELEMENTOS DEL DOM
-    // ------------------------------------------------------------
+    // ---------- RESTO DEL REPRODUCTOR CON MEMORIA ----------
     let video = document.getElementById('miVideo');
-    let indiceActual = -1;          // Ìndice del video que se est· reproduciendo
+    let playlist = [];
+    let currentVideoIndex = -1;
     let guardarTimeout = null;
 
-    // ------------------------------------------------------------
-    // 4. FUNCIONES DE ALMACENAMIENTO (localStorage)
-    // ------------------------------------------------------------
-    // Guardar progreso de un video especÌfico (por Ìndice)
-    function guardarProgresoVideo(indice, segundos) {
-        if (indice === undefined || indice < 0) return;
-        let progresos = JSON.parse(localStorage.getItem('progresos_videos')) || {};
-        progresos[indice] = segundos;
-        localStorage.setItem('progresos_videos', JSON.stringify(progresos));
-        
-        // TambiÈn guardar el ˙ltimo video visto (Ìndice)
-        localStorage.setItem('ultimo_video_indice', indice);
-        
-        // Actualizar el badge visual en la lista
-        actualizarBadge(indice, segundos);
-    }
-    
-    // Obtener progreso guardado de un video
-    function obtenerProgresoVideo(indice) {
-        let progresos = JSON.parse(localStorage.getItem('progresos_videos')) || {};
-        return progresos[indice] || 0;
-    }
-    
-    // Actualizar la insignia de un solo video en la lista
-    function actualizarBadge(indice, segundos) {
-        const badgeSpan = document.getElementById(`badge-${indice}`);
-        if (badgeSpan) {
-            if (segundos > 0) {
-                const mins = Math.floor(segundos / 60);
-                const secs = segundos % 60;
-                badgeSpan.textContent = `?? ${mins}:${secs.toString().padStart(2,'0')}`;
-            } else {
-                badgeSpan.textContent = `?? No visto`;
-            }
+    function guardarProgreso() {
+        if (!video.src || video.readyState === 0) return;
+        const tiempoActual = Math.floor(video.currentTime);
+        if (isNaN(tiempoActual)) return;
+        const nombreClave = playlist[currentVideoIndex]?.nombre.replace(/ /g,'_');
+        if (nombreClave) {
+            localStorage.setItem(`progreso_${nombreClave}`, tiempoActual);
         }
-    }
-    
-    // Actualizar todos los badges al cargar la p·gina
-    function actualizarTodosLosBadges() {
-        let progresos = JSON.parse(localStorage.getItem('progresos_videos')) || {};
-        for (let i = 0; i < videos.length; i++) {
-            let seg = progresos[i] || 0;
-            actualizarBadge(i, seg);
+        const estadoDiv = document.getElementById('estadoProgreso');
+        if (estadoDiv) {
+            estadoDiv.innerHTML = `üíæ Guardado: ${Math.floor(tiempoActual/60)}:${(tiempoActual%60).toString().padStart(2,'0')}`;
+            setTimeout(() => {
+                if (estadoDiv.innerHTML.includes('Guardado')) estadoDiv.innerHTML = '';
+            }, 1500);
         }
     }
 
-    // ------------------------------------------------------------
-    // 5. FUNCI”N PARA CARGAR UN VIDEO POR ÕNDICE
-    // ------------------------------------------------------------
-    function cargarVideo(indice) {
-        if (indice < 0 || indice >= videos.length) return;
-        indiceActual = indice;
-        const videoData = videos[indice];
-        const urlDirecta = obtenerUrlVideo(videoData.driveId);
+    function cargarVideo(index) {
+        if (index < 0 || index >= playlist.length) return;
+        currentVideoIndex = index;
+        const videoItem = playlist[currentVideoIndex];
+        const url = obtenerUrlVideo(videoItem.driveId);
         
-        // Cambiar la fuente del reproductor
-        video.src = urlDirecta;
+        document.getElementById('videoNombre').innerText = `üé¨ ${videoItem.nombre}`;
+        
+        const itemsLi = document.querySelectorAll('.playlist li');
+        itemsLi.forEach((li, i) => {
+            if (i === index) li.classList.add('active');
+            else li.classList.remove('active');
+        });
+        
+        video.src = url;
         video.load();
         
-        // Actualizar la interfaz: nombre del video y resaltado en lista
-        document.getElementById('videoNombre').innerHTML = `?? ${videoData.nombre}`;
-        resaltarVideoEnLista(indice);
+        const progresoGuardado = localStorage.getItem(`progreso_${videoItem.nombre.replace(/ /g,'_')}`);
+        let segundosGuardados = progresoGuardado ? parseInt(progresoGuardado, 10) : 0;
         
-        // Recuperar el progreso guardado para este video
-        const segundosGuardados = obtenerProgresoVideo(indice);
-        
-        // Esperar a que el video pueda ser manipulado (cargar metadatos)
-        function onLoadedMetadata() {
-            video.removeEventListener('loadedmetadata', onLoadedMetadata);
-            if (segundosGuardados > 0 && segundosGuardados < video.duration) {
+        video.addEventListener('loadedmetadata', function onLoaded() {
+            video.removeEventListener('loadedmetadata', onLoaded);
+            if (!isNaN(segundosGuardados) && segundosGuardados > 0 && segundosGuardados < video.duration) {
                 video.currentTime = segundosGuardados;
-                const mins = Math.floor(segundosGuardados / 60);
-                const secs = segundosGuardados % 60;
-                mostrarEstado(`? Reanudando desde ${mins}:${secs.toString().padStart(2,'0')}`);
-            } else {
-                mostrarEstado(`?? Comenzando ${videoData.nombre}`);
+                document.getElementById('estadoProgreso').innerHTML = `‚è™ Reanudando desde ${Math.floor(segundosGuardados/60)}:${(segundosGuardados%60).toString().padStart(2,'0')}`;
+                setTimeout(() => {
+                    if (document.getElementById('estadoProgreso').innerHTML.includes('Reanudando')) 
+                        document.getElementById('estadoProgreso').innerHTML = '';
+                }, 2500);
             }
-        }
-        video.addEventListener('loadedmetadata', onLoadedMetadata);
+        });
         
-        // TambiÈn guardar en el localStorage el ˙ltimo video (por si acaso)
-        localStorage.setItem('ultimo_video_indice', indice);
+        // Guardar el √≠ndice del √∫ltimo video visto
+        localStorage.setItem('ultimo_video_index', index);
     }
     
-    // Resaltar el video activo en la lista y quitar resaltado de los dem·s
-    function resaltarVideoEnLista(indice) {
-        const items = document.querySelectorAll('.playlist li');
-        items.forEach((item, i) => {
-            if (i === indice) {
-                item.classList.add('active');
-            } else {
-                item.classList.remove('active');
+    function renderPlaylist() {
+        const ul = document.getElementById('listaVideos');
+        ul.innerHTML = '';
+        playlist.forEach((item, idx) => {
+            const li = document.createElement('li');
+            const nombreSpan = document.createElement('span');
+            nombreSpan.textContent = item.nombre;
+            const progGuardado = localStorage.getItem(`progreso_${item.nombre.replace(/ /g,'_')}`);
+            let badge = '';
+            if (progGuardado && parseInt(progGuardado) > 0) {
+                const seg = parseInt(progGuardado);
+                badge = ` ‚è±Ô∏è ${Math.floor(seg/60)}:${(seg%60).toString().padStart(2,'0')}`;
             }
+            const badgeSpan = document.createElement('span');
+            badgeSpan.className = 'progress-badge';
+            badgeSpan.textContent = badge;
+            li.appendChild(nombreSpan);
+            li.appendChild(badgeSpan);
+            li.onclick = () => cargarVideo(idx);
+            ul.appendChild(li);
         });
     }
     
-    // Mostrar mensajes temporales en el estado
-    function mostrarEstado(mensaje) {
-        const estadoDiv = document.getElementById('estadoProgreso');
-        estadoDiv.innerHTML = mensaje;
-        setTimeout(() => {
-            if (estadoDiv.innerHTML === mensaje) {
-                estadoDiv.innerHTML = '? Listo. El progreso se guarda autom·ticamente.';
-            }
-        }, 2500);
-    }
-    
-    // ------------------------------------------------------------
-    // 6. GUARDADO AUTOM¡TICO DEL PROGRESO (cada 5 segundos y al pausar)
-    // ------------------------------------------------------------
-    function guardarProgresoActual() {
-        if (indiceActual !== -1 && video && !isNaN(video.currentTime) && video.readyState > 0) {
-            const segundos = Math.floor(video.currentTime);
-            guardarProgresoVideo(indiceActual, segundos);
-            // No mostramos mensaje cada vez para no saturar, solo silencioso.
+    function init() {
+        playlist = videos;  // usar la lista de arriba
+        renderPlaylist();
+        const ultimoIndex = localStorage.getItem('ultimo_video_index');
+        let indiceInicio = 0;
+        if (ultimoIndex !== null && !isNaN(parseInt(ultimoIndex))) {
+            indiceInicio = parseInt(ultimoIndex);
+            if (indiceInicio >= playlist.length) indiceInicio = 0;
         }
+        cargarVideo(indiceInicio);
     }
     
-    // Evento: cada vez que el tiempo cambia, agendamos guardado cada 5 segundos
     video.addEventListener('timeupdate', () => {
         if (guardarTimeout) clearTimeout(guardarTimeout);
         guardarTimeout = setTimeout(() => {
-            guardarProgresoActual();
+            guardarProgreso();
         }, 5000);
     });
     
-    // Evento: al pausar, guardamos inmediatamente
     video.addEventListener('pause', () => {
-        guardarProgresoActual();
-        if (indiceActual !== -1) {
-            const seg = Math.floor(video.currentTime);
-            const mins = Math.floor(seg / 60);
-            const secs = seg % 60;
-            mostrarEstado(`?? Progreso guardado: ${mins}:${secs.toString().padStart(2,'0')}`);
+        guardarProgreso();
+    });
+    
+    video.addEventListener('ended', () => {
+        if (currentVideoIndex + 1 < playlist.length) {
+            cargarVideo(currentVideoIndex + 1);
         }
     });
     
-    // Evento: antes de cerrar la p·gina, guardar por ˙ltima vez
-    window.addEventListener('beforeunload', () => {
-        guardarProgresoActual();
-    });
-    
-    // ------------------------------------------------------------
-    // 7. CONSTRUCCI”N DE LA LISTA DE REPRODUCCI”N EN EL HTML
-    // ------------------------------------------------------------
-    function generarLista() {
-        const contenedor = document.getElementById('listaVideos');
-        contenedor.innerHTML = '';
-        videos.forEach((videoItem, idx) => {
-            const li = document.createElement('li');
-            const spanNombre = document.createElement('span');
-            spanNombre.textContent = videoItem.nombre;
-            const spanBadge = document.createElement('span');
-            spanBadge.className = 'progress-badge';
-            spanBadge.id = `badge-${idx}`;
-            spanBadge.textContent = '?? No visto';
-            li.appendChild(spanNombre);
-            li.appendChild(spanBadge);
-            li.addEventListener('click', () => {
-                cargarVideo(idx);
-            });
-            contenedor.appendChild(li);
-        });
-        // DespuÈs de crear la lista, actualizamos los badges con los progresos existentes
-        actualizarTodosLosBadges();
-    }
-    
-    // ------------------------------------------------------------
-    // 8. BOT”N PARA REINICIAR EL VIDEO ACTUAL
-    // ------------------------------------------------------------
     document.getElementById('reiniciarVideo').addEventListener('click', () => {
-        if (indiceActual !== -1 && video) {
+        if (currentVideoIndex >= 0) {
             video.currentTime = 0;
-            guardarProgresoVideo(indiceActual, 0);
-            mostrarEstado(`?? Video reiniciado al principio`);
-            // Actualizar badge a "No visto"
-            actualizarBadge(indiceActual, 0);
-        } else {
-            mostrarEstado(`?? No hay video cargado`);
+            const nombreClave = playlist[currentVideoIndex].nombre.replace(/ /g,'_');
+            localStorage.setItem(`progreso_${nombreClave}`, 0);
+            document.getElementById('estadoProgreso').innerHTML = 'üîÑ Video reiniciado a 0:00';
+            setTimeout(() => {
+                if (document.getElementById('estadoProgreso').innerHTML.includes('reiniciado'))
+                    document.getElementById('estadoProgreso').innerHTML = '';
+            }, 2000);
         }
     });
     
-    // ------------------------------------------------------------
-    // 9. INICIALIZAR AL CARGAR LA P¡GINA
-    // ------------------------------------------------------------
     window.addEventListener('load', () => {
-        generarLista();
-        
-        // Recuperar ˙ltimo video visto
-        let ultimoIndice = localStorage.getItem('ultimo_video_indice');
-        if (ultimoIndice !== null && !isNaN(parseInt(ultimoIndice))) {
-            ultimoIndice = parseInt(ultimoIndice);
-            if (ultimoIndice >= 0 && ultimoIndice < videos.length) {
-                cargarVideo(ultimoIndice);
-                return;
-            }
-        }
-        // Si no hay ˙ltimo video o es inv·lido, cargar el primero (lecciÛn 39)
-        if (videos.length > 0) {
-            cargarVideo(0);
-        }
-    });
-    
-    // PequeÒa ayuda: si el video falla por CORS o permisos, mostrar mensaje amigable
-    video.addEventListener('error', (e) => {
-        console.error('Error de video:', e);
-        mostrarEstado('? No se pudo cargar el video. Puede que el profesor haya restringido la reproducciÛn directa. Prueba a abrir la carpeta y compartir los enlaces como "Cualquier persona con el enlace"');
+        init();
     });
 </script>
 </body>
