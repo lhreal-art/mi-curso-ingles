@@ -151,8 +151,8 @@
 
     // ---------- FUNCIÓN CLAVE: Obtener URL del video usando proxy gratuito ----------
     function obtenerUrlVideo(driveId) {
-        // Proxy cors-anywhere (puede tener límites, pero suele funcionar)
-    return `https://cors-anywhere.herokuapp.com/https://drive.google.com/uc?export=download&id=${driveId}`;
+         // Enlace directo de Google Drive (puede dar error de bloqueo, pero vale la pena intentarlo)
+    return `https://drive.google.com/uc?export=download&id=${driveId}`;
 }
 
     // ---------- RESTO DEL REPRODUCTOR CON MEMORIA ----------
